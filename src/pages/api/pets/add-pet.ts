@@ -6,10 +6,9 @@ export default async function handler(
     response: NextApiResponse,
 ) {
     try {
-        const petName = request.query.petName as string;
-        const ownerName = request.query.ownerName as string;
-        if (!petName || !ownerName) throw new Error('Pet and owner names required');
-        await sql`INSERT INTO Pets (Name, Owner) VALUES (${petName}, ${ownerName});`;
+        const { name, owner } = request.body; // Отримуємо дані з тіла POST-запиту
+        if (!name || !owner) throw new Error('Pet and owner names required');
+        await sql`INSERT INTO Pets (Name, Owner) VALUES (${name}, ${owner});`;
     } catch (error) {
         return response.status(500).json({ error });
     }
